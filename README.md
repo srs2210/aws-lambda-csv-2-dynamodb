@@ -25,7 +25,7 @@ $ export AWS_DEFAULT_REGION="us-east-1"
 
 Terraform will use the above environment variables to authenticate with AWS for deploying resources. We are using the **us-east-1** region throughout the tutorial. If you want to work with a different region, make the below changes in the downloaded source code.
 
-```js
+```
 # In terraform.tfvars file add the region of your choice
 region = "<YOUR_REGION>"
 
@@ -33,25 +33,27 @@ region = "<YOUR_REGION>"
 region = '<YOUR_REGION>'
 ```
 We will be using remote backend for our configuration. If you open the ```backend.tf``` file, you will find the below configuration block:
-```js
+```
 terraform {
-	required_providers {
-		aws = {
-			source  =  "hashicorp/aws"
-			version =  "~> 3.0"
-		}
-	}
-	backend "s3" {
-		bucket =  "remotebackendtf"
-		key    =  "terraform.tfstate"
-		region =  "us-east-1"
-	}
+ required_providers {
+   aws = {
+    source  =  "hashicorp/aws"
+    version =  "~> 3.0"
+   }
+ }
+ backend "s3" {
+   bucket =  "remotebackendtf"
+   key    =  "terraform.tfstate"
+   region =  "us-east-1"
+ }
 }
 ```
 Make sure you have a bucket named **remotebackendtf** in **us-east-1** region (You can change the bucket name and region if required, make sure to update the values in the configuration accordingly).
+<br/>
 
-> **⚠️ BE WARNED :** This tutorial will create resources in your AWS account for which you may be billed for.**
+> **⚠️ BE WARNED :** This tutorial will create resources in your AWS account for which you may be billed for.
 
+<br />
 
 ## 🚀 Execution
 
@@ -63,18 +65,17 @@ $ terraform apply -auto-approve
 ```
 After the commands run successfully, the output console will give you an API endpoint and an API Key. You will get an output similar to what is shown below:
 ```
-Outputs:
-
-api_key  = G7GwSKFCQcKSapomJYlw17qCbEqsfmZ7iBlh6evd
 base_url = https://1rlenzzkv2.execute-api.us-east-1.amazonaws.com/test
+api_key  = G7GwSKFCQcKSapomJYlw17qCbEqsfmZ7iBlh6evd
 ```
 Make a note of these values as we will use these later to interact with DynamoDB.
 
 If you go to your AWS account , you will find two lambda functions deployed, **csv-2-dynamodb-lambda-func** and **csv-2-dynamodb-rest-api** (with an API Gateway as the frontend). Terraform also deploys a bucket named **csv-2-dynamodb-bucket** where we will upload our .csv files for testing and a DynamoDB table named **Customers** which has **Id** as it's key attribute.
-
-**csv-2-dynamodb-lambda-func** is the lambda function that will read the uploaded CSV (from the s3 bucket **csv-2-dynamodb-bucket**) and add entries in DynamoDB, **csv-2-dynamodb-rest-api** is the lambda function that interacts with DynamoDB.
+<br/>
 
 > **📝 Note** : The configuration creates an administrator role and attaches it to the above lambda functions. This makes sure that lambda can read files from S3 and add entries to DynamoDB.
+
+<br />
 
 ## 🧐 Testing
 
@@ -94,6 +95,8 @@ You should find the below 4 entries
 4	Nick	Fury	9999999999
 ```
 
+<br />
+
 ## 🌐 Working with the REST API
 We will use the API endpoint and the API Key that we got earlier when ```terraform apply``` executed successfully.
 
@@ -102,11 +105,11 @@ You can use the POSTMAN tool to test this API. I've kept the lambda function cod
 Below are the formats for different requests that you can use to test the REST API from POSTMAN tool. Make sure to include **x-api-key** header in all your requests.
 
 Create Item:
-```js
-URL			: https://1rlenzzkv2.execute-api.us-east-1.amazonaws.com/test
+```
+URL: https://1rlenzzkv2.execute-api.us-east-1.amazonaws.com/test
 Request Type: POST
-Header		: x-api-key = G7GwSKFCQcKSapomJYlw17qCbEqsfmZ7iBlh6evd
-Body		:
+Header: x-api-key = G7GwSKFCQcKSapomJYlw17qCbEqsfmZ7iBlh6evd
+Body:
 {
 	"id":  11,
 	"firstname":  "testfirstname",
@@ -115,30 +118,32 @@ Body		:
 }
 ```
 Read Item:
-```js
-URL			: https://1rlenzzkv2.execute-api.us-east-1.amazonaws.com/test?id=1
+```
+URL: https://1rlenzzkv2.execute-api.us-east-1.amazonaws.com/test?id=1
 Request Type: GET
-Header		: x-api-key = G7GwSKFCQcKSapomJYlw17qCbEqsfmZ7iBlh6evd
+Header: x-api-key = G7GwSKFCQcKSapomJYlw17qCbEqsfmZ7iBlh6evd
 ```
 Update Item:
-```js
-URL			: https://1rlenzzkv2.execute-api.us-east-1.amazonaws.com/test
+```
+URL: https://1rlenzzkv2.execute-api.us-east-1.amazonaws.com/test
 Request Type: PUT
-Header		: x-api-key = G7GwSKFCQcKSapomJYlw17qCbEqsfmZ7iBlh6evd
-Body		:
+Header: x-api-key = G7GwSKFCQcKSapomJYlw17qCbEqsfmZ7iBlh6evd
+Body:
 {
 	"id":  1,
-	"firstname":  "Ben",
-	"lastname":  "Parker",
+	"firstname":  "testfirstname",
+	"lastname":  "testlastname",
 	"contact":  9999999999
 }
 ```
 Delete Item:
-```js
-URL			: https://1rlenzzkv2.execute-api.us-east-1.amazonaws.com/test?id=1
-Request Type: DELETE
-Header		: x-api-key = G7GwSKFCQcKSapomJYlw17qCbEqsfmZ7iBlh6evd
 ```
+URL: https://1rlenzzkv2.execute-api.us-east-1.amazonaws.com/test?id=1
+Request Type: DELETE
+Header: x-api-key = G7GwSKFCQcKSapomJYlw17qCbEqsfmZ7iBlh6evd
+```
+
+<br />
 
 ## 🚮 Destroy Resources
 
