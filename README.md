@@ -2,6 +2,8 @@
 
 This tutorial will show you how to deploy a lambda function in AWS which gets triggered on a CSV upload to S3 bucket and insert the records from CSV into DynamoDB using Terraform. Our template will also deploy one REST API endpoint which can be used to query the data uploaded to DynamoDB.
 
+<br />
+
 ## 👨‍💻 Preparation
 
 To follow this tutorial you will need:
@@ -21,7 +23,12 @@ $ export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY"
 $ export AWS_SECRET_ACCESS_KEY="YOUR_SECRETY_ACCESS_KEY"
 $ export AWS_DEFAULT_REGION="us-east-1"
 ```
+
+<br />
+
 > **💡 Pro Tip** : If you have AWS CLI configured locally, Terraform can use that configuration too for authentication with AWS. 
+
+<br />
 
 Terraform will use the above environment variables to authenticate with AWS for deploying resources. We are using the **us-east-1** region throughout the tutorial. If you want to work with a different region, make the below changes in the downloaded source code.
 
@@ -49,7 +56,8 @@ terraform {
 }
 ```
 Make sure you have a bucket named **remotebackendtf** in **us-east-1** region (You can change the bucket name and region if required, make sure to update the values in the configuration accordingly).
-<br/>
+
+<br />
 
 > **⚠️ BE WARNED :** This tutorial will create resources in your AWS account for which you may be billed for.
 
@@ -71,7 +79,8 @@ api_key  = G7GwSKFCQcKSapomJYlw17qCbEqsfmZ7iBlh6evd
 Make a note of these values as we will use these later to interact with DynamoDB.
 
 If you go to your AWS account , you will find two lambda functions deployed, **csv-2-dynamodb-lambda-func** and **csv-2-dynamodb-rest-api** (with an API Gateway as the frontend). Terraform also deploys a bucket named **csv-2-dynamodb-bucket** where we will upload our .csv files for testing and a DynamoDB table named **Customers** which has **Id** as it's key attribute.
-<br/>
+
+<br />
 
 > **📝 Note** : The configuration creates an administrator role and attaches it to the above lambda functions. This makes sure that lambda can read files from S3 and add entries to DynamoDB.
 
