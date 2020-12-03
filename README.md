@@ -21,7 +21,10 @@ $ export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY"
 $ export AWS_SECRET_ACCESS_KEY="YOUR_SECRETY_ACCESS_KEY"
 $ export AWS_DEFAULT_REGION="us-east-1"
 ```
+
+<br/>
 > **💡 Pro Tip** : If you have AWS CLI configured locally, Terraform can use that configuration too for authentication with AWS. 
+<br/>
 
 Terraform will use the above environment variables to authenticate with AWS for deploying resources. We are using the **us-east-1** region throughout the tutorial. If you want to work with a different region, make the below changes in the downloaded source code.
 
