@@ -16,7 +16,7 @@ $ git clone https://github.com/srs2210/aws-lambda-csv-2-dynamodb.git
 $ cd aws-lambda-csv-2-dynamodb
 ```
 For sake of simplicity you can use credentials with administrative access to your AWS account. Once you have the credentials, you will need to create the environment variables as shown below:
-```js
+```
 $ export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY"
 $ export AWS_SECRET_ACCESS_KEY="YOUR_SECRETY_ACCESS_KEY"
 $ export AWS_DEFAULT_REGION="us-east-1"
