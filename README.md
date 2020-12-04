@@ -1,4 +1,4 @@
-# ⚡️ AWS Lambda: CSV to DynamoDB Uploader
+# ⚡️ AWS Lambda: CSV to DynamoDB Uploader using Terraform
 
 This tutorial will show you how to deploy a lambda function in AWS which gets triggered on a CSV upload to S3 bucket and insert the records from CSV into DynamoDB using Terraform. Our template will also deploy one REST API endpoint which can be used to query the data uploaded to DynamoDB.
 
